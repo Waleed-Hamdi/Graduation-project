@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "464769418488",
+    "firebase_url": "https://renting-8a831.firebaseio.com",
+    "project_id": "renting-8a831",
+    "storage_bucket": "renting-8a831.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464769418488:android:3482a8b74b3b7021bd270d",
+        "android_client_info": {
+          "package_name": "com.example.our_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "464769418488-rli2pfjjbvhq97ab6t1ipoa5fq19ed64.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDV3M6KRYSJS1iwuWACAnFkjQob28rYh1M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "464769418488-rli2pfjjbvhq97ab6t1ipoa5fq19ed64.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
