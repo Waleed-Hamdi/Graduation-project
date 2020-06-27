@@ -89,7 +89,7 @@ class _homeState extends State<home> with SingleTickerProviderStateMixin{
         elevation: 0.0,
         backgroundColor: Colors.indigo,
         centerTitle: true,
-        title: Text("Renting App",style: GoogleFonts.aclonica(
+        title: Text("Renting App waleed",style: GoogleFonts.aclonica(
           fontSize: 30,
 //          color: Color(twee.value),
         )),
