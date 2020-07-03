@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:our_project/screens/register.dart';
 import 'package:our_project/screens/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
 
 class sign extends StatefulWidget {
   @override
@@ -80,47 +82,46 @@ class _homeState extends State<sign> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-//      appBar: AppBar(
-//        elevation: 0.0,
-//        toolbarOpacity: 1,
-//        title: Text("Login Page"),
-//        centerTitle: true,
-//      ),
-      backgroundColor: Colors.blue,
-      body: Stack(
-        alignment: Alignment.center,
-        fit: StackFit.expand,
-        children: <Widget>[
-          Image(image: AssetImage("images/9.jpg"),fit: BoxFit.fill,),
-          ListView(
-            children: <Widget>[
-              Container(
-                height: 180,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: Text("   "),
-                      height: ani.value * 160,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(image: AssetImage("images/1.png"),fit: BoxFit.fill,),
-                          backgroundBlendMode: BlendMode.colorDodge,
-                          color: Color.fromRGBO(25, 13, 10, 1),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight : Radius.circular(98),
-                          )
-                      ),
-                    ),
 
-                  ],
-                ),
+    double height = MediaQuery.of(context).size.height;
+
+
+    return Scaffold(
+      backgroundColor: Colors.blue,
+      body: Container(
+        padding: EdgeInsets.symmetric(horizontal: 7),
+        color: Colors.indigo,
+        child: ListView(
+          children: <Widget>[
+            Container(
+              height: 180,
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Text("   "),
+                    height: height * 0.20,
+                    width: MediaQuery.of(context).size.width,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(image: AssetImage("images/1.png"),fit: BoxFit.fill,),
+                        backgroundBlendMode: BlendMode.colorDodge,
+                        color: Color.fromRGBO(25, 13, 10, 1),
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(10),
+                          bottomRight : Radius.circular(98),
+                        )
+                    ),
+                  ),
+                ],
               ),
-              Form(
+            ),
+            SizedBox(
+              height: height * 0.12,
+              child: Center(child: Text("Sign In",style: GoogleFonts.pacifico(fontSize: height * 0.06 ,color: Colors.white),)),
+            ),
+            Form(
                 key: _formkey,
-                  child:Column(
+                child:Column(
                   children: <Widget>[
                     Padding(
                       padding: EdgeInsets.all(5.0),
@@ -184,61 +185,59 @@ class _homeState extends State<sign> with SingleTickerProviderStateMixin {
                       ),
                     ),
                   ],
-                  )
-              ),
+                )
+            ),
 
-              SizedBox(
-                height: 20.0,
-              ),
-              Card(
-                  elevation: 3.0,
-                  child: GestureDetector(
+            SizedBox(
+              height: height * 0.02,
+            ),
+            Card(
+                elevation: 3.0,
+                child: GestureDetector(
+                  onTap: (){
+                    login();
+                  },
+                  child: Image(image: AssetImage("images/3.png"),
+                    height: ani.value * height * 0.08,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                )
+            ),
+            SizedBox(
+              height: height * 0.01,
+            ),
+            Card(
+                elevation: 3.0,
+                child: GestureDetector(
                     onTap: (){
-                     login();
+                      Navigator.of(context).push(  PageRouteBuilder(
+                          transitionDuration: Duration(seconds: 2),
+                          transitionsBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation, Widget Child){
+                            animation = CurvedAnimation(parent: animation, curve: Curves.elasticInOut);
+                            return ScaleTransition(
+                              scale: animation,
+                              child: Child,
+                              alignment: Alignment.center,
+                            );
+                          },
+                          pageBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation){
+                            return reg();
+                          }
+                      ));
                     },
-                    child: Image(image: AssetImage("images/3.png"),
-                      height: ani.value * 50,
-                      width: MediaQuery.of(context).size.width,
-                    ),
-                  )
-              ),
-              SizedBox(
-                height: 18.0,
-              ),
-              Card(
-                  elevation: 3.0,
-                  child: GestureDetector(
-                      onTap: (){
-                        Navigator.of(context).push(  PageRouteBuilder(
-                            transitionDuration: Duration(seconds: 2),
-                            transitionsBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation, Widget Child){
-                              animation = CurvedAnimation(parent: animation, curve: Curves.elasticInOut);
-                              return ScaleTransition(
-                                scale: animation,
-                                child: Child,
-                                alignment: Alignment.center,
-                              );
-                            },
-                            pageBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation){
-                              return reg();
-                            }
-                        ));
-                      },
-                      child: Card(
-                        child: Text("Create Account",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                              fontSize: ani.value* 30,
-                              color: Colors.red
-                          ),
+                    child: Card(
+                      child: Text("Create Account",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontSize: ani.value* height * 0.07,
+                            color: Colors.red
                         ),
-                      )
-                  )
-              ),
-
-            ],
-          ),
-        ],
+                      ),
+                    )
+                )
+            )
+          ],
+        ),
       ),
     );
   }
