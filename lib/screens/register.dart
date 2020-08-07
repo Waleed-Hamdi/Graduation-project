@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:our_project/screens/home.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 
 class reg extends StatefulWidget {
   @override
@@ -65,8 +68,13 @@ class _regState extends State<reg> {
 
 @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blue,
+
+  double height = MediaQuery.of(context).size.height;
+  double wid = MediaQuery.of(context).size.width;
+
+
+  return Scaffold(
+      backgroundColor: Colors.indigo,
 //        appBar: AppBar(
 //          title: Text("Registration Page"),
 //          centerTitle: true,
@@ -75,31 +83,41 @@ class _regState extends State<reg> {
         alignment: Alignment.center,
         fit: StackFit.expand,
         children: <Widget>[
-          Image(image: AssetImage("images/9.jpg"),fit: BoxFit.fill,),
           ListView(
             children: <Widget>[
-              Container(
-                height: 180,
+              Center(
                 child: Column(
                   children: <Widget>[
-                    Container(
-                      alignment: Alignment.topLeft,
-                      child: Text("   "),
-                      height: 160,
-                      width: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                          image: DecorationImage(image: AssetImage("images/1.png"),fit: BoxFit.fill,),
-                          backgroundBlendMode: BlendMode.colorDodge,
-                          color: Color.fromRGBO(25, 13, 10, 1),
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            bottomRight : Radius.circular(98),
-                          )
-                      ),
+                    Text("4Rent ",
+                        style: GoogleFonts.pacifico(
+                          fontSize: height * 0.08,
+                          color: Colors.white,
+                        )),
+                    FadeAnimatedTextKit(
+                      text: [
+                        "Flats",
+                        "Villas",
+                        "Shops",
+                        "Cars",
+                        "Chalets",
+                        "Accessories"
+                      ],
+                      textStyle: GoogleFonts.aclonica(
+                          color: Colors.white, fontSize: height * 0.06),
+                      isRepeatingAnimation: true,
+                      totalRepeatCount: 1000,
                     ),
-
                   ],
                 ),
+              ),
+              SizedBox(
+                height: height * 0.11,
+                child: Center(
+                    child: Text(
+                      "Sign Up",
+                      style: GoogleFonts.pacifico(
+                          fontSize: height * 0.06, color: Colors.white),
+                    )),
               ),
               Form(
                 key: _formkey,
@@ -117,7 +135,7 @@ class _regState extends State<reg> {
                             labelStyle: TextStyle(color: Colors.white),
                             icon: Icon(
                               Icons.person,
-                              size: 30,
+                              size: height * 0.05,
                               color: Colors.white,
                             ),
                             enabledBorder: OutlineInputBorder(
@@ -146,7 +164,7 @@ class _regState extends State<reg> {
                             labelStyle: TextStyle(color: Colors.white),
                             icon: Icon(
                               Icons.phone,
-                              size: 30,
+                              size: height * 0.05,
                               color: Colors.white,
                             ),
                             enabledBorder: OutlineInputBorder(
@@ -175,7 +193,7 @@ class _regState extends State<reg> {
                             labelStyle: TextStyle(color: Colors.white),
                             icon: Icon(
                               Icons.mail,
-                              size: 30,
+                              size:height * 0.05,
                               color: Colors.white,
                             ),
                             enabledBorder: OutlineInputBorder(
@@ -202,7 +220,7 @@ class _regState extends State<reg> {
                           decoration: InputDecoration(
                             icon: Icon(
                               Icons.vpn_key,
-                              size: 30,
+                              size: height * 0.05,
                               color: Colors.white,
                             ),
                             labelText: "Enter User Password",
@@ -221,30 +239,72 @@ class _regState extends State<reg> {
                           },
                         ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.all(5.0),
+                        child: TextFormField(
+                          style: TextStyle(color: Colors.white),
+                          textAlign: TextAlign.center,
+                          obscureText: true,
+                          controller: passController,
+                          decoration: InputDecoration(
+                            icon: Icon(
+                              Icons.vpn_key,
+                              size: height * 0.05,
+                              color: Colors.white,
+                            ),
+                            labelText: "Retype Password",
+                            labelStyle: TextStyle(color: Colors.white),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(width: 2.0, color: Colors.white),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                          ),
+                          // The validator receives the text that the user has entered.
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Retype Password please';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
+
+
 
                     ],
                   )),
 
               SizedBox(
-                height: 20.0,
+                height: height * 0.00,
               ),
-              Card(
-                  elevation: 3.0,
-                  child: GestureDetector(
-                    onTap: () {
-                      login();
-                    },
-                    child: Image(
-                      image: AssetImage("images/3.png"),
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
+              Row(
+                children: <Widget>[
+                  Spacer(),
+                  Column(
+                  children: <Widget>[
+                    Divider(
+                      height:  height *0.05,
                     ),
-                  )),
-              Container(
-                  alignment: Alignment.bottomRight,
-                  height: 100,
-                  width: MediaQuery.of(context).size.width,
-                  child: Image(image: AssetImage("images/12.png"),)),
+                    Text(
+                      "Sign Up",
+                      style: GoogleFonts.acme(
+                          fontSize: height * 0.06, color: Colors.white),
+                    ),
+                  ],
+                  ),
+                  IconButton(
+                      icon: Icon(
+                        EvaIcons.doneAllOutline,
+                        color: Colors.green,
+                        size: height * 0.12,
+                      ),
+                      onPressed: () {
+                        login();
+                      }),
+                  Spacer(),
+                ],
+              ),
+
             ],
           )
 

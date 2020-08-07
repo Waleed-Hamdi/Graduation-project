@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:our_project/screens/Sign_in.dart';
-import 'package:our_project/screens/home.dart';
-import 'package:our_project/screens/Productdetails.dart';
-import 'package:our_project/screens/home2.dart';
+//import 'package:our_project/screens/home.dart';
+//import 'package:our_project/screens/Productdetails.dart';
+//import 'package:our_project/screens/home3.dart';
+//import 'package:our_project/screens/newhome.dart';
+import 'package:our_project/screens/home3.dart';
 
 void main(){
   runApp(MaterialApp(
-    title: "Renting",
+    title: "4Rent",
     debugShowCheckedModeBanner:false ,
-    theme: ThemeData(fontFamily: 'SF Pro Display'),
+    theme: ThemeData(fontFamily: 'SF Pro Display',backgroundColor: Colors.indigo),
     home: splash(),
     color: Colors.red,
   ));
@@ -40,7 +42,7 @@ class _splashState extends State<splash> {
                  );
               },
                 pageBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation){
-                  return home();
+                  return HomePage3();
                 }
             )
           );

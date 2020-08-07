@@ -17,6 +17,8 @@ environment:
   sdk: ">=2.1.0 <3.0.0"
 
 dependencies:
+  eva_icons_flutter: ^2.0.1
+  animated_icon_button: any
   flutter:
     sdk: flutter
 
@@ -42,6 +44,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+
 
 
 # For information on the generic Dart part of this file, see the

@@ -105,7 +105,8 @@ class _homeState extends State<home> with SingleTickerProviderStateMixin{
 //          children: <Widget>[
 //            InkWell(
 //              onTap: () {},
-//              child: UserAccountsDrawerHeader(
+//              child:
+//              UserAccountsDrawerHeader(
 //                accountName: Text("waleed hamdi"),
 //                accountEmail: Text("waleedhamdi716@gmail.com"),
 //                currentAccountPicture: CircleAvatar(
@@ -262,7 +263,7 @@ class _homeState extends State<home> with SingleTickerProviderStateMixin{
                                 );
                               },
                               pageBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation){
-                                return HomePage();
+                                return HomeePage();
                               }
                           ));
                         },

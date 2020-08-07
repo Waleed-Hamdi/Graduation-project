@@ -12,12 +12,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 
 
-class HomePage extends StatefulWidget {
+class HomeePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _HomeePageState createState() => _HomeePageState();
 }
 
-class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin{
+
+
+class _HomeePageState extends State<HomeePage> with SingleTickerProviderStateMixin{
   DatabaseReference dbref = FirebaseDatabase.instance.reference().child("products");
   DatabaseReference dbimref = FirebaseDatabase.instance.reference().child("Images");
 
@@ -32,12 +34,13 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
   String dropval ,dropval2 , DocID;
   Asset c;
-  int x =0 , n = 0;
+  int x =0 , n = 0 ,z =0;
   String _error = 'No Error Dectected';
   List<Asset> images = List<Asset>();
   List imageUrls;
   var ID;
-
+  List<String> urls = [] ;
+  int y = 0;
 
   AnimationController controller;
 
@@ -154,11 +157,11 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         onChanged: dropchange,
                         value: dropval,
                         items: <String>[
-                          'Flat',
-                          'Chalet',
-                          'vlla',
-                          'Shop',
-                          'Car',
+                          'Flats',
+                          'Chalets',
+                          'villas',
+                          'Shops',
+                          'Cars',
                           'weeding halls',
                           'Accessories'
                         ].map<DropdownMenuItem<String>>((String value) {
@@ -303,7 +306,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                   onPressed: () {
                     loadAssets();
                   },
-                  color: Colors.red,
+                  color: Colors.indigo,
                   shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(22.0),
                   ),
@@ -352,7 +355,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                     }
 
                   },
-                  color: Colors.red,
+                  color: Colors.indigo,
                   shape: RoundedRectangleBorder(
                     borderRadius: new BorderRadius.circular(22.0),
                   ),
@@ -441,6 +444,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
 
 
   void uploadImages(String docid)async{
+
+     urls.clear();
     if (_formkey.currentState.validate()) {
       try {
         final result = await Firestore.instance.collection('products').document(docid).setData({
@@ -450,7 +455,9 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
           "Phone": phonecontroller.text,
           "Price": pricecontroller.text,
           "Details": detailscontroller.text,
-          "DocID" : docid
+          "DocID" : docid ,
+          "Date" : DateTime.now().month,
+
         }).then((_) {
           addresscontroller.clear();
           phonecontroller.clear();
@@ -461,14 +468,20 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         print(e);
       }
     }
-    for ( var imageFile in images) {
-      postImage(imageFile).then((downloadUrl) {
-        print(downloadUrl + "gooooog");
-        ID = downloadUrl.toString();
-        storeid( docid,ID );
-      });
-    }
-    print('hello');
+
+     for ( var imageFile in images) {
+       postImage(imageFile).then((downloadUrl) {
+         print(downloadUrl + "gooooog");
+         urls.add(downloadUrl);
+         print(urls[0] + "urls");
+         ID = downloadUrl.toString();
+         storeid(docid, ID);
+       });
+     }
+
+
+     print('hello');
+    print(urls);
   }
 
   void storeid(String docid , String id)async{
@@ -477,10 +490,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     }else{
       print('good');
       String documnetID = DateTime.now().millisecondsSinceEpoch.toString();
+
       Firestore.instance.collection('images').document(docid).setData({
         'urls$x': id
       },merge: true).then((_){
       }).whenComplete(action);
+      if(z == 0){
+        Firestore.instance.collection('products').document(docid).setData({
+          'urls$x': id
+        },merge: true);
+        z+=1;
+      }
+
       x += 1;
     }
   }

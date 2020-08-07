@@ -68,7 +68,7 @@ class SlidingCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(offset.sign);
+//    print(offset.sign);
     double gauss = math.exp(-(math.pow((offset.abs() - 0.5), 2) / 0.08));
 //    print(offset.abs());
     return Transform.translate(
@@ -134,38 +134,38 @@ class CardContent extends StatelessWidget {
               style: TextStyle(color: Colors.grey),
             ),
           ),
-          Spacer(),
-          Row(
-            children: <Widget>[
-              Transform.translate(
-                offset: Offset(48 * offset, 0),
-                child: RaisedButton(
-                  color: Color(0xFF162A49),
-                  child: Transform.translate(
-                    offset: Offset(24 * offset, 0),
-                    child: Text('Reserve'),
-                  ),
-                  textColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(32),
-                  ),
-                  onPressed: () {},
-                ),
-              ),
-              Spacer(),
-              Transform.translate(
-                offset: Offset(32 * offset, 0),
-                child: Text(
-                  '0.00 \$',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-              SizedBox(width: 16),
-            ],
-          )
+//          Spacer(),
+//          Row(
+//            children: <Widget>[
+//              Transform.translate(
+//                offset: Offset(48 * offset, 0),
+//                child: RaisedButton(
+//                  color: Color(0xFF162A49),
+//                  child: Transform.translate(
+//                    offset: Offset(24 * offset, 0),
+//                    child: Text('Reserve'),
+//                  ),
+//                  textColor: Colors.white,
+//                  shape: RoundedRectangleBorder(
+//                    borderRadius: BorderRadius.circular(32),
+//                  ),
+//                  onPressed: () {},
+//                ),
+//              ),
+//              Spacer(),
+//              Transform.translate(
+//                offset: Offset(32 * offset, 0),
+//                child: Text(
+//                  '0.00 \$',
+//                  style: TextStyle(
+//                    fontWeight: FontWeight.bold,
+//                    fontSize: 20,
+//                  ),
+//                ),
+//              ),
+//              SizedBox(width: 16),
+//            ],
+//          )
         ],
       ),
     );

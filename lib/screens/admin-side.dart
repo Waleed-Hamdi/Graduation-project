@@ -10,12 +10,18 @@ class admin extends StatefulWidget {
 class _adminState extends State<admin> {
   @override
   Widget build(BuildContext context) {
+
+
+    final double width = MediaQuery.of(context).size.width;
+    final double hieght = MediaQuery.of(context).size.height;
+
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.indigo,
         centerTitle: true,
-        title: Text("Renting App",style: GoogleFonts.aclonica(
+        title: Text("Admin Side",style: GoogleFonts.aclonica(
           fontSize: 30,
 //          color: Color(twee.value),
         )),
