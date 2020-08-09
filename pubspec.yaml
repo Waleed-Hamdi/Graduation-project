@@ -18,7 +18,9 @@ environment:
 
 dependencies:
   eva_icons_flutter: ^2.0.1
+  fleva_icons: ^1.0.2
   animated_icon_button: any
+  url_launcher: ^5.5.0
   flutter:
     sdk: flutter
 

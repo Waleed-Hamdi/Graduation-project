@@ -202,63 +202,92 @@ class _homeState extends State<sign> with SingleTickerProviderStateMixin {
               children: <Widget>[
                 SizedBox(
                   width: wid * 0.5,
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.of(context).push(PageRouteBuilder(
+                          transitionDuration: Duration(seconds: 2),
+                          transitionsBuilder: (BuildContext context,
+                              Animation<double> animation,
+                              Animation<double> secAnimation,
+                              Widget Child) {
+                            animation = CurvedAnimation(
+                                parent: animation,
+                                curve: Curves.elasticInOut);
+                            return ScaleTransition(
+                              scale: animation,
+                              child: Child,
+                              alignment: Alignment.center,
+                            );
+                          },
+                          pageBuilder: (BuildContext context,
+                              Animation<double> animation,
+                              Animation<double> secAnimation) {
+                            return reg();
+                          }));
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Sign Up",
+                          style: GoogleFonts.acme(
+                              fontSize: height * 0.06, color: Colors.white),
+                        ),
+                        IconButton(
+                            icon: Icon(
+                              EvaIcons.arrowCircleRight,
+                              color: Colors.white,
+                              size: height * 0.12,
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).push(PageRouteBuilder(
+                                  transitionDuration: Duration(seconds: 2),
+                                  transitionsBuilder: (BuildContext context,
+                                      Animation<double> animation,
+                                      Animation<double> secAnimation,
+                                      Widget Child) {
+                                    animation = CurvedAnimation(
+                                        parent: animation,
+                                        curve: Curves.elasticInOut);
+                                    return ScaleTransition(
+                                      scale: animation,
+                                      child: Child,
+                                      alignment: Alignment.center,
+                                    );
+                                  },
+                                  pageBuilder: (BuildContext context,
+                                      Animation<double> animation,
+                                      Animation<double> secAnimation) {
+                                    return reg();
+                                  }));
+                            }),
+                      ],
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: (){
+                    login();
+                  },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Text(
-                        "Sign Up",
+                        "Sign In",
                         style: GoogleFonts.acme(
                             fontSize: height * 0.06, color: Colors.white),
                       ),
                       IconButton(
                           icon: Icon(
-                            EvaIcons.arrowCircleRight,
-                            color: Colors.white,
+                            EvaIcons.doneAllOutline,
+                            color: Colors.green,
                             size: height * 0.12,
                           ),
                           onPressed: () {
-                            Navigator.of(context).push(PageRouteBuilder(
-                                transitionDuration: Duration(seconds: 2),
-                                transitionsBuilder: (BuildContext context,
-                                    Animation<double> animation,
-                                    Animation<double> secAnimation,
-                                    Widget Child) {
-                                  animation = CurvedAnimation(
-                                      parent: animation,
-                                      curve: Curves.elasticInOut);
-                                  return ScaleTransition(
-                                    scale: animation,
-                                    child: Child,
-                                    alignment: Alignment.center,
-                                  );
-                                },
-                                pageBuilder: (BuildContext context,
-                                    Animation<double> animation,
-                                    Animation<double> secAnimation) {
-                                  return reg();
-                                }));
+                            login();
                           }),
                     ],
                   ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      "Sign In",
-                      style: GoogleFonts.acme(
-                          fontSize: height * 0.06, color: Colors.white),
-                    ),
-                    IconButton(
-                        icon: Icon(
-                          EvaIcons.doneAllOutline,
-                          color: Colors.green,
-                          size: height * 0.12,
-                        ),
-                        onPressed: () {
-                          login();
-                        }),
-                  ],
                 ),
               ],
             ),

@@ -42,7 +42,7 @@ class _splashState extends State<splash> {
                  );
               },
                 pageBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation){
-                  return HomePage3();
+                  return sign();
                 }
             )
           );

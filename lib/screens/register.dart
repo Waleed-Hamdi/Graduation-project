@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:our_project/screens/home.dart';
+import 'package:our_project/screens/home3.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class reg extends StatefulWidget {
   @override
@@ -19,6 +21,7 @@ class _regState extends State<reg> {
   DatabaseReference dbref = FirebaseDatabase.instance.reference().child("users");
 
   TextEditingController passController = TextEditingController();
+  TextEditingController repassController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -30,18 +33,44 @@ class _regState extends State<reg> {
       try{
 
    w  =    await auth.createUserWithEmailAndPassword(email: emailController.text, password: passController.text).then((result){
-          dbref.push().set({
-            "name" : nameController.text ,
-            "phone number" : phoneController.text ,
-            "email" : emailController.text ,
-            "password" : passController.text
-          }).then((value){
-            print(auth.currentUser());
-            nameController.clear();
-            emailController.clear();
-            passController.clear();
-            phoneController.clear();
-            Navigator.of(context).pushReplacement(  PageRouteBuilder(
+//          dbref.push().set({
+//            "name" : nameController.text ,
+//            "phone number" : phoneController.text ,
+//            "email" : emailController.text ,
+//            "password" : passController.text
+//          }).then((value){
+//            print(auth.currentUser());
+//            nameController.clear();
+//            emailController.clear();
+//            passController.clear();
+//            phoneController.clear();
+//            Navigator.of(context).pushReplacement(  PageRouteBuilder(
+//                transitionDuration: Duration(seconds: 2),
+//                transitionsBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation, Widget Child){
+//                  animation = CurvedAnimation(parent: animation, curve: Curves.elasticInOut);
+//                  return ScaleTransition(
+//                    scale: animation,
+//                    child: Child,
+//                    alignment: Alignment.center,
+//                  );
+//                },
+//                pageBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation){
+//                  return home();
+//                }
+//            ));
+//          });
+      var res = Firestore.instance.collection('users').add({
+       "phone": phoneController.text,
+       "name": nameController.text,
+       "email": emailController.text,
+       "password": passController.text,
+
+     }).then((_) {
+       nameController.clear();
+       phoneController.clear();
+       emailController.clear();
+       passController.clear();
+       Navigator.of(context).pushReplacement(  PageRouteBuilder(
                 transitionDuration: Duration(seconds: 2),
                 transitionsBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation, Widget Child){
                   animation = CurvedAnimation(parent: animation, curve: Curves.elasticInOut);
@@ -52,10 +81,10 @@ class _regState extends State<reg> {
                   );
                 },
                 pageBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation){
-                  return home();
-                }
+                return HomePage3();
+                 }
             ));
-          });
+     });
         }
         );
 
@@ -245,7 +274,7 @@ class _regState extends State<reg> {
                           style: TextStyle(color: Colors.white),
                           textAlign: TextAlign.center,
                           obscureText: true,
-                          controller: passController,
+                          controller: repassController,
                           decoration: InputDecoration(
                             icon: Icon(
                               Icons.vpn_key,

@@ -1,5 +1,6 @@
 import './home.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -8,6 +9,8 @@ import 'package:multi_image_picker/multi_image_picker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:rating_dialog/rating_dialog.dart';
+import 'package:fleva_icons/fleva_icons.dart';
 
 
 
@@ -25,6 +28,38 @@ class _HomeePageState extends State<HomeePage> with SingleTickerProviderStateMix
 
   final cloud = Firestore.instance;
 
+   int rate = 0 ;
+
+  void _showRatingDialog() {
+    // We use the built in showDialog function to show our Rating Dialog
+    showDialog(
+        context: context,
+        barrierDismissible: true, // set to false if you want to force a rating
+        builder: (context) {
+          return RatingDialog(
+            icon: Icon(FlevaIcons.bar_chart,), // set your own image/icon widget
+            title: "Rating Product",
+            description:
+            "Tap a star to set your rating.",
+            submitButton: "SUBMIT",
+            alternativeButton: "Contact us instead?", // optional
+            positiveComment: "We are so happy to hear :)", // optional
+            negativeComment: "We're sad to hear :(", // optional
+            accentColor: Colors.red, // optional
+            onSubmitPressed: (int rating) async{
+                    rate = rating;
+            },
+            onAlternativePressed: () {
+              print("onAlternativePressed: do something");
+              // TODO: maybe you want the user to contact you instead of rating a bad review
+            },
+          );
+        });
+  }
+
+
+
+
   final GlobalKey<FormState> _formkey = GlobalKey();
 
   TextEditingController addresscontroller = TextEditingController();
@@ -35,7 +70,6 @@ class _HomeePageState extends State<HomeePage> with SingleTickerProviderStateMix
   String dropval ,dropval2 , DocID;
   Asset c;
   int x =0 , n = 0 ,z =0;
-  String _error = 'No Error Dectected';
   List<Asset> images = List<Asset>();
   List imageUrls;
   var ID;
@@ -96,6 +130,10 @@ class _HomeePageState extends State<HomeePage> with SingleTickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+
+    final double hieght = MediaQuery.of(context).size.height;
+    final double wid = MediaQuery.of(context).size.width;
+
     return Scaffold(
       appBar: new AppBar(
         backgroundColor: Colors.indigo,
@@ -159,7 +197,7 @@ class _HomeePageState extends State<HomeePage> with SingleTickerProviderStateMix
                         items: <String>[
                           'Flats',
                           'Chalets',
-                          'villas',
+                          'Villas',
                           'Shops',
                           'Cars',
                           'weeding halls',
@@ -290,6 +328,19 @@ class _HomeePageState extends State<HomeePage> with SingleTickerProviderStateMix
                         labelText: 'Details',
                       ),
                     ),
+
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Center(
+                          child: RaisedButton(
+                            color: Colors.indigo,
+                            child: Text("Initial Rating",style: GoogleFonts.lato(color: Colors.white,fontSize: hieght * 0.05),),
+                            onPressed: _showRatingDialog,
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 )),
             SizedBox(height: 20.0),
@@ -400,7 +451,7 @@ class _HomeePageState extends State<HomeePage> with SingleTickerProviderStateMix
     if (!mounted) return;
     setState(() {
       images = resultList;
-      _error = error;
+//      _error = error;
     });
   }
 
@@ -447,8 +498,10 @@ class _HomeePageState extends State<HomeePage> with SingleTickerProviderStateMix
 
      urls.clear();
     if (_formkey.currentState.validate()) {
+      var firebaseUser = await FirebaseAuth.instance.currentUser();
       try {
         final result = await Firestore.instance.collection('products').document(docid).setData({
+          "userid" : firebaseUser.uid,
           "type": dropval,
           "city": dropval2,
           "Adress": addresscontroller.text,
@@ -457,6 +510,7 @@ class _HomeePageState extends State<HomeePage> with SingleTickerProviderStateMix
           "Details": detailscontroller.text,
           "DocID" : docid ,
           "Date" : DateTime.now().month,
+          "Rating" : rate.toString(),
 
         }).then((_) {
           addresscontroller.clear();

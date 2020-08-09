@@ -4,14 +4,18 @@ import 'package:our_project/screens/home.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:fleva_icons/fleva_icons.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:rating_dialog/rating_dialog.dart';
 import 'package:eva_icons_flutter/eva_icons_flutter.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 
 class proddetails extends StatefulWidget {
-  String Address, Description, City, DocID, Price, number;
+  String Address, Description, City, DocID, Price, number,Rating;
   proddetails(this.Address, this.Description, this.City, this.Price,
-      this.number, this.DocID);
+      this.number, this.DocID,this.Rating);
   @override
   _proddetailsState createState() => _proddetailsState();
 }
@@ -25,8 +29,20 @@ class _proddetailsState extends State<proddetails>
   Map<dynamic, dynamic> images = {"waleed": "hamdi"};
   int x = 0;
 
+  Future<void> _launched;
+  String _phone = '';
+
+  Future<void> _makePhoneCall(String url) async {
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   AnimationController controller;
   Animation animation;
+
 
   @override
   void initState() {
@@ -58,6 +74,45 @@ class _proddetailsState extends State<proddetails>
 //    setState(() {});
 //    print(images[0]["urls2"]);
 //  }
+
+  void _showRatingDialog() {
+    // We use the built in showDialog function to show our Rating Dialog
+    showDialog(
+        context: context,
+        barrierDismissible: true, // set to false if you want to force a rating
+        builder: (context) {
+          return RatingDialog(
+            icon: Icon(FlevaIcons.bar_chart,), // set your own image/icon widget
+            title: "Rating Product",
+            description:
+            "Tap a star to set your rating.",
+            submitButton: "SUBMIT",
+            alternativeButton: "Contact us instead?", // optional
+            positiveComment: "We are so happy to hear :)", // optional
+            negativeComment: "We're sad to hear :(", // optional
+            accentColor: Colors.red, // optional
+            onSubmitPressed: (int rating) async{
+              var firebaseUser = await FirebaseAuth.instance.currentUser();
+              try {
+                final result = await Firestore.instance.collection('products').document(widget.DocID).updateData({
+                  "Rating" : rating.toString(),
+                }).then((_) {
+                  print("Done");
+                });
+              } catch (e) {
+                print(e);
+              }
+              print("onSubmitPressed: rating = $rating");
+              // TODO: open the app's page on Google Play / Apple App Store
+            },
+            onAlternativePressed: () {
+              print("onAlternativePressed: do something");
+              // TODO: maybe you want the user to contact you instead of rating a bad review
+            },
+          );
+        });
+  }
+
   @override
   void dispose() {
     // TODO: implement dispose
@@ -190,9 +245,8 @@ class _proddetailsState extends State<proddetails>
                                 Text(
                                   widget.City,
                                   style:
-                                      GoogleFonts.lato(fontSize: hieght * 0.04),
-                                ),
-                                Divider(
+                                  GoogleFonts.lato(fontSize: hieght * 0.04),
+                                ),                                Divider(
                                   color: Colors.indigo,
                                   thickness: 5.0,
                                 ),
@@ -204,9 +258,8 @@ class _proddetailsState extends State<proddetails>
                                 Text(
                                   widget.Address,
                                   style:
-                                      GoogleFonts.lato(fontSize: hieght * 0.04),
-                                ),
-                                Divider(
+                                  GoogleFonts.lato(fontSize: hieght * 0.04),
+                                ),                                Divider(
                                   color: Colors.indigo,
                                   thickness: 5.0,
                                 ),
@@ -218,7 +271,7 @@ class _proddetailsState extends State<proddetails>
                                 Text(
                                   widget.Description,
                                   style:
-                                      GoogleFonts.lato(fontSize: hieght * 0.04),
+                                  GoogleFonts.lato(fontSize: hieght * 0.04),
                                 ),
                                 Divider(
                                   color: Colors.indigo,
@@ -232,9 +285,8 @@ class _proddetailsState extends State<proddetails>
                                 Text(
                                   widget.Price,
                                   style:
-                                      GoogleFonts.lato(fontSize: hieght * 0.04),
-                                ),
-                                Divider(
+                                  GoogleFonts.lato(fontSize: hieght * 0.04),
+                                ),                                Divider(
                                   color: Colors.indigo,
                                   thickness: 5.0,
                                 ),
@@ -246,52 +298,61 @@ class _proddetailsState extends State<proddetails>
                                 Text(
                                   widget.number,
                                   style:
-                                      GoogleFonts.lato(fontSize: hieght * 0.04),
+                                  GoogleFonts.lato(fontSize: hieght * 0.04),
                                 ),
                                 Divider(
                                   color: Colors.indigo,
                                   thickness: 5.0,
                                 ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    InkWell(
-                                      onTap: () {},
-                                      child: Card(
-                                          color: Colors.green,
-                                          child: Row(
-                                            children: <Widget>[
-                                              IconButton(
-                                                  onPressed: () {},
+                                Text(
+                                  "Last Rate",
+                                  style: GoogleFonts.aclonica(
+                                      fontSize: hieght * 0.05),
+                                ),
+                                Text(
+                                  "${widget.Rating} /5",
+                                  style: GoogleFonts.aclonica(
+                                      fontSize: hieght * 0.05),
+                                ),
+                                Divider(
+                                  color: Colors.indigo,
+                                  thickness: 5.0,
+                                ),
+                                Center(
+                                  child: RaisedButton(
+                                    color: Colors.indigo,
+                                    child: Text("Rating Product",style: GoogleFonts.lato(color: Colors.white,fontSize: hieght * 0.05),),
+                                    onPressed: _showRatingDialog,
+                                  ),
+                                ),
+
+                                Center(
+                                  child: InkWell(
+                                    onTap: () => setState(() {
+                                      _launched = _makePhoneCall('tel:${widget.number}');
+                                    }),
+                                    child: Card(
+                                        color: Colors.green,
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                          children: <Widget>[
+                                            Center(
+                                              child: IconButton(
+                                                  onPressed: () => setState(() {
+                                                    _makePhoneCall('${widget.number}');
+                                                  }),
                                                   icon:
                                                       Icon(EvaIcons.phoneCall)),
-                                              Text(
-                                                "   Call    ",
-                                                style: GoogleFonts.pacifico(
-                                                    fontSize: hieght * 0.04),
-                                              ),
-                                            ],
-                                          )),
-                                    ),
-                                    InkWell(
-                                      onTap: () {},
-                                      child: Card(
-                                          color: Colors.green,
-                                          child: Row(
-                                            children: <Widget>[
-                                              IconButton(
-                                                  onPressed: () {},
-                                                  icon: Icon(EvaIcons.compass)),
-                                              Text(
-                                                "Go There  ",
-                                                style: GoogleFonts.pacifico(
-                                                    fontSize: hieght * 0.04),
-                                              ),
-                                            ],
-                                          )),
-                                    ),
-                                  ],
+                                            ),
+                                            Text(
+                                              "   Call    ",
+                                              textAlign: TextAlign.center,
+                                              style: GoogleFonts.pacifico(
+                                                  fontSize: hieght * 0.04),
+                                            ),
+                                          ],
+                                        )),
+                                  ),
                                 ),
                                 Divider(
                                   height: hieght * 0.1,

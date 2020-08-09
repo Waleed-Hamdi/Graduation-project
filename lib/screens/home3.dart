@@ -1,6 +1,10 @@
 import 'package:our_project/screens/sliding_cards.dart';
 import 'package:our_project/screens/productfromfirebase.dart';
+import 'package:our_project/screens/admin-side.dart';
+import 'package:our_project/screens/Sign_in.dart';
+
 import 'package:our_project/screens/addproduct.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'exhibition_bottom_sheet.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -45,6 +49,13 @@ class _HomePage3State extends State<HomePage3>
 
   int n = 1;
 
+
+  String txt ;
+  TextEditingController controller ;
+  onchange(){
+    txt = controller.toString();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -54,9 +65,23 @@ class _HomePage3State extends State<HomePage3>
     );
   }
 
+  FirebaseAuth auth = FirebaseAuth.instance;
+  signout()async{
+    try {
+     final w = await auth.signOut()
+          .then((result) {
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (context) => sign()));
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void dispose() {
     _controller.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -393,7 +418,10 @@ class _HomePage3State extends State<HomePage3>
                                   Card(
                                     color: Colors.white,
                                     child: InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                         signout();
+
+                                      },
                                       child: ListTile(
                                         title: Text("Sign Out"),
                                         leading: Icon(
@@ -406,7 +434,92 @@ class _HomePage3State extends State<HomePage3>
                                   Card(
                                     color: Colors.white,
                                     child: InkWell(
-                                      onTap: () {},
+                                      onLongPress: (){
+//                                        showDialog(context: context,child:
+//                                        AlertDialog(
+//                                          title: Text("Warning",style: GoogleFonts.pacifico(color: Colors.white,fontSize: hieght *0.05),textAlign: TextAlign.center,),
+//                                          content: TextField(obscureText: true,controller: controller,onChanged: onchange(),),
+//                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32))),
+//                                          backgroundColor: Colors.indigo,
+//                                          actions: <Widget>[
+//                                            Card(
+//
+//                                              child: InkWell(
+//                                                child: Text("OK   ",textAlign: TextAlign.center,style: GoogleFonts.pacifico(fontSize: hieght *0.05),),
+//                                                onTap: (){
+//                                                  txt == "sherlock" ? Navigator.of(context)
+//                                                      .push(  PageRouteBuilder(
+//                                                      transitionDuration: Duration(seconds: 2),
+//                                                      transitionsBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation, Widget Child){
+//                                                        animation = CurvedAnimation(parent: animation, curve: Curves.elasticInOut);
+//                                                        return ScaleTransition(
+//                                                          scale: animation,
+//                                                          child: Child,
+//                                                          alignment: Alignment.center,
+//                                                        );
+//                                                      },
+//                                                      pageBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation){
+//                                                        return admin();
+//                                                      }
+//                                                  )) : Navigator.of(context)
+//                                                      .push(  PageRouteBuilder(
+//                                                      transitionDuration: Duration(seconds: 2),
+//                                                      transitionsBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation, Widget Child){
+//                                                        animation = CurvedAnimation(parent: animation, curve: Curves.elasticInOut);
+//                                                        return ScaleTransition(
+//                                                          scale: animation,
+//                                                          child: Child,
+//                                                          alignment: Alignment.center,
+//                                                        );
+//                                                      },
+//                                                      pageBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation){
+//                                                        return HomePage3();
+//                                                      }
+//                                                  ));
+//                                                },
+//                                              ),
+//                                            )
+//                                          ],
+//                                        )
+//                                        );
+                                      },
+                                      onTap: () {
+//                                        print("waleed");
+
+                                        showDialog(context: context,child:
+                                        AlertDialog(
+                                          title: Text("Warning",style: GoogleFonts.pacifico(color: Colors.white,fontSize: hieght *0.05),textAlign: TextAlign.center,),
+                                          content: Text("it is not your way",textAlign: TextAlign.center,style: GoogleFonts.lato(color: Colors.white,fontSize: hieght * 0.03),),
+                                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(32))),
+                                          backgroundColor: Colors.indigo,
+                                          actions: <Widget>[
+                                            Card(
+
+                                              child: InkWell(
+                                                child: Text("OK   ",textAlign: TextAlign.center,style: GoogleFonts.pacifico(fontSize: hieght *0.05),),
+                                                onTap: (){
+                                                  Navigator.of(context)
+                                                      .push(  PageRouteBuilder(
+                                                      transitionDuration: Duration(seconds: 2),
+                                                      transitionsBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation, Widget Child){
+                                                        animation = CurvedAnimation(parent: animation, curve: Curves.elasticInOut);
+                                                        return ScaleTransition(
+                                                          scale: animation,
+                                                          child: Child,
+                                                          alignment: Alignment.center,
+                                                        );
+                                                      },
+                                                      pageBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation){
+                                                        return HomePage3();
+                                                      }
+                                                  ));
+                                                },
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                        );
+                                      },
                                       child: ListTile(
                                         title: Text("About"),
                                         leading: Icon(

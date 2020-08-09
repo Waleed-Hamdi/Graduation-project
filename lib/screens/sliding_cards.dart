@@ -119,7 +119,7 @@ class _SlidingCardsViewState extends State<SlidingCardsView> {
                 ),
                 SlidingCard(
                   city: dropval2,
-                  name: 'Vllas',
+                  name: 'Villas',
                   assetName: 'dow2.jpg',
                   offset: pageOffset - 1,
                   f: widget.n,

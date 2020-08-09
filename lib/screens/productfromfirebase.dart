@@ -198,7 +198,7 @@ class _pffState extends State<pff> with SingleTickerProviderStateMixin{
                                 );
                               },
                               pageBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation){
-                                return proddetails(pro[index]["Adress"], pro[index]["Details"], pro[index]["city"],pro[index]["Price"], pro[index]["Phone"], pro[index]["DocID"]);
+                                return proddetails(pro[index]["Adress"], pro[index]["Details"], pro[index]["city"],pro[index]["Price"], pro[index]["Phone"], pro[index]["DocID"],pro[index]["Rating"]);
                               }
                           ));
                         },
@@ -320,7 +320,7 @@ class _pffState extends State<pff> with SingleTickerProviderStateMixin{
                              );
                            },
                            pageBuilder: (BuildContext context, Animation<double> animation , Animation<double> secAnimation){
-                             return proddetails(pro[index]["Adress"], pro[index]["Details"], pro[index]["city"],pro[index]["Price"], pro[index]["Phone"], pro[index]["DocID"]);
+                             return proddetails(pro[index]["Adress"], pro[index]["Details"], pro[index]["city"],pro[index]["Price"], pro[index]["Phone"], pro[index]["DocID"],pro[index]["Rating"]);
                            }
                        ));
                      },
